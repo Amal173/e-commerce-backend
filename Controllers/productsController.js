@@ -60,10 +60,9 @@ const createProduct = asyncHandler(async (req, res) => {
 
 
 const editProduct = asyncHandler(async (req, res) => {
-    console.log(req.body);
+
     const { productName, productSpecs, productDescription, productPrice, categoryId } = req.body;
     const id = req.params.id;
-    console.log(req.files);
     let imagepaths = req.files ? req.files.map(file => file.filename) : null;
 
     if (!productName || !productSpecs || !productDescription || !productPrice || !categoryId) {
@@ -71,19 +70,17 @@ const editProduct = asyncHandler(async (req, res) => {
         throw new Error("empty field");
     }
 
-
-    if (!req.files) {
+    if (!req.files||req.files.length<=0) {
         const existingProduct = await product.findById(req.params.id);
-
+        
         if (!existingProduct) {
             res.status(404);
             throw new Error("product not found");
         }
-
+        
         imagepaths = existingProduct.productImages.map(file => file);
+
     }
-
-
 
     const updateData = {
         ...req.body,

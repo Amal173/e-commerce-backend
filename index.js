@@ -24,7 +24,7 @@ app.use('/products',productRouter);
 app.use('/admin',adminRouter);
 app.use('/user',userRouter);
 app.use('/stripe',stripePaymentRouter);
-app.use('/stripe',userOrderRouter);
+app.use('/order',userOrderRouter);
 app.use("/uploads", express.static(path.resolve(__dirname, "uploads")));
 
 app.listen(port, () => {

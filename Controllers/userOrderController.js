@@ -23,6 +23,36 @@ const getOrders = (async (req, res) => {
 });
 
 
+const getOrdersById = (async (req, res) => {
+    console.log("gaoao", req.params.id);
+    const id = req.params.id
+    try {
+        const Orders = await userOrder.find({ _id:id });
+        if (!Orders) {
+
+            return res.status(500).json({ message: "error to get the orders" });
+        }
+        res.status(200).json({ Orders });
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+});
+
+
+const getAllOrders = (async (req, res) => {
+    try {
+        const Orders = await userOrder.aggregate([{ $match: { orderStatus: "complete" } }]);
+        if (!Orders) {
+
+            return res.status(500).json({ message: "error to get the all orders" });
+        }
+        res.status(200).json({ Orders });
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+});
+
+
 const stipeCheckout = (async (req, res) => {
     try {
         console.log(req.body);
@@ -60,9 +90,9 @@ const stipeCheckout = (async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             line_items,
             mode: 'payment',
-            billing_address_collection: 'required', // or 'auto'
+            billing_address_collection: 'required',
             shipping_address_collection: {
-                allowed_countries: ['US', 'CA', 'GB', 'AU'], // Add the countries you want to allow shipping to
+                allowed_countries: ['US', 'CA', 'GB', 'AU'], 
             },
             success_url: `${process.env.BASE_URL}/checkout-success/?id=${userOrders._id}&cartItems=${JSON.stringify(cartItems)}`,
             cancel_url: `${process.env.BASE_URL}/cart`,
@@ -87,4 +117,4 @@ const stipeCheckout = (async (req, res) => {
 
 
 
-module.exports = { stipeCheckout, getOrders }
+module.exports = { stipeCheckout, getOrders ,getAllOrders,getOrdersById}

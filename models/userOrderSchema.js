@@ -7,28 +7,38 @@ const userOrderSchema = mongoose.Schema({
     type: String,
     required: true
   },
+
   products: {
     type: [],
     required: true
   },
+
   totalPrice: {
     type: String,
     required: true
   },
+
   orderDate: {
     type: String,
     required: true
   },
+
   orderStatus: {
     type: String,
     default: "pending"
   },
+
   billingAddress: {
     type: {},
 
   },
+
   shippingAddress: {
     type: {},
+
+  },
+  customerEmail: {
+    type:String,
 
   },
 

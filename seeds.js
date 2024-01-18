@@ -16,7 +16,7 @@ const password = "password";
 
 const seedDB = async () => {
     await admin.deleteMany({});
-    const hashedPassword = await bcrypt.hash(password, 10); // Await here
+    const hashedPassword = await bcrypt.hash(password, 10); 
     await admin.insertMany([
         {
             username: "Amal",

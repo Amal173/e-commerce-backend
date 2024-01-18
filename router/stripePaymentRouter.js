@@ -1,10 +1,8 @@
 const express=require('express')
 const router=express.Router()
-const {stipeCheckout,getOrders}=require('../Controllers/userOrderController')
-
-router.route('/create-checkout-session').post(stipeCheckout)
-router.route('/userOrder/:id').get(getOrders)
+const {stripeRetriveSession}=require('../Controllers/stripePaymentController')
 
 
+router.route('/retrive-checkout-session/:id').get(stripeRetriveSession)
 
 module.exports=router
